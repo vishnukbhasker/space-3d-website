@@ -32,8 +32,10 @@ pipeline {
     steps {
         sh '''
             export KUBECONFIG=/var/lib/jenkins/.kube/config
+            kubectl get nodes
             kubectl apply -f k8s/deployment.yaml
             kubectl apply -f k8s/service.yaml
+            kubectl rollout status deployment/space-3d-site
         '''
     }
 }
