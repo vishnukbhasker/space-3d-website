@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/vishnukbhasker/space-3d-site.git'
+                git branch: 'main', url: 'https://github.com/vishnukbhasker/space-3d-website.git'
             }
         }
 
