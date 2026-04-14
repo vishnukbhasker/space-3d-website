@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Stars & Moon Space</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at bottom, #0b1026 0%, #02040a 60%, #000 100%);
+      height: 100vh;
+      perspective: 1000px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      transform-style: preserve-3d;
+    }
+
+    .moon {
+      position: absolute;
+      top: 12%;
+      right: 12%;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #d9d9d9 40%, #8d8d8d 70%, #5e5e5e 100%);
+      box-shadow: 0 0 40px rgba(255,255,255,0.45);
+      animation: floatMoon 6s ease-in-out infinite;
+      transform: translateZ(80px);
+    }
+
+    .moon::before, .moon::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(120,120,120,0.35);
+    }
+    .moon::before { width: 22px; height: 22px; top: 30px; left: 35px; }
+    .moon::after { width: 14px; height: 14px; top: 80px; left: 70px; }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px white;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    .hero {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      z-index: 2;
+      transform: translateZ(120px);
+    }
+
+    h1 {
+      font-size: 4rem;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px rgba(255,255,255,0.4);
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    p {
+      margin-top: 16px;
+      font-size: 1.2rem;
+      opacity: 0.85;
+    }
+
+    .orbit {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 50%;
+      top: 10%;
+      right: 8%;
+      animation: rotate 14s linear infinite;
+    }
+
+    .mini-moon {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #cfcfcf;
+      top: -14px;
+      left: 96px;
+      box-shadow: 0 0 14px rgba(255,255,255,0.3);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.8); }
+    }
+
+    @keyframes floatMoon {
+      0%, 100% { transform: translateZ(80px) translateY(0px); }
+      50% { transform: translateZ(80px) translateY(-18px); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes glow {
+      0%,100% { opacity: 0.9; }
+      50% { opacity: 1; text-shadow: 0 0 30px rgba(255,255,255,0.8); }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene" id="scene">
+    <div class="moon"></div>
+    <div class="orbit"><div class="mini-moon"></div></div>
+    <div class="hero">
+      <h1>Cosmic Dreams</h1>
+      <p>3D animated stars and moons drifting through space</p>
+    </div>
+  </div>
+
+  <script>
+    const scene = document.getElementById('scene');
+    for (let i = 0; i < 180; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.animationDelay = (Math.random() * 3) + 's';
+      star.style.transform = `translateZ(${Math.random() * 200}px)`;
+      scene.appendChild(star);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 12;
+      const y = (e.clientY / window.innerHeight - 0.5) * 12;
+      scene.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+    });
+  </script>
+</body>
+</html>
