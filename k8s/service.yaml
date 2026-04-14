@@ -7,6 +7,7 @@ spec:
   selector:
     app: space-3d-site
   ports:
-    - port: 80
+    - protocol: TCP
+      port: 80
       targetPort: 80
       nodePort: 30080
