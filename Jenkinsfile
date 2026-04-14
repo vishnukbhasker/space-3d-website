@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "vishnukbhasker/space-3d-site"
+        TAG = "latest"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/vishnukbhasker/space-3d-site.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {E:
+                sh 'docker build -t $IMAGE_NAME:$TAG .'
+            }
+        }
+
+        stage('Push to DockerHub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    sh 'docker push $IMAGE_NAME:$TAG'
+                }
+            }
+        }
+
+        stage('Deploy to Minikube') {
+            steps {
+                sh 'kubectl apply -f k8s/deployment.yaml'
+                sh 'kubectl apply -f k8s/service.yaml'
+            }
+        }
+    }
+}
