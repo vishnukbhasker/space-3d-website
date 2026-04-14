@@ -29,10 +29,13 @@ pipeline {
         }
 
         stage('Deploy to Minikube') {
-            steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
-            }
-        }
+    steps {
+        sh '''
+            export KUBECONFIG=/var/lib/jenkins/.kube/config
+            kubectl apply -f k8s/deployment.yaml
+            kubectl apply -f k8s/service.yaml
+        '''
+    }
+}
     }
 }
