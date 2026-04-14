@@ -1,3 +1,5 @@
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: space-3d-site
 spec:
@@ -13,5 +15,6 @@ spec:
       containers:
       - name: space-3d-site
         image: vishnukbhasker/space-3d-site:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
