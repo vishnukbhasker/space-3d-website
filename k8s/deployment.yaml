@@ -1,0 +1,17 @@
+metadata:
+  name: space-3d-site
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: space-3d-site
+  template:
+    metadata:
+      labels:
+        app: space-3d-site
+    spec:
+      containers:
+      - name: space-3d-site
+        image: vishnukbhasker/space-3d-site:latest
+        ports:
+        - containerPort: 80
